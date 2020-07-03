@@ -20,18 +20,6 @@ class ViewController: UITableViewController {
     var editMode = true
     override func viewDidLoad() {
         super.viewDidLoad()
-//         let defaults = UserDefaults.standard
-//         if let savedArray = defaults.object(forKey: "userCustomNotes") as? Data{
-//             let jsonDecoder = JSONDecoder()
-//             do{
-//                 notes = try jsonDecoder.decode([Note].self,from: savedArray)
-//
-//             } catch{
-//
-//                 print("Failed to load people")
-//             }
-//         }
-
         let myLabl = UILabel()
         myLabl.text = "Notes"
         myLabl.tintColor = .systemYellow
@@ -58,7 +46,6 @@ class ViewController: UITableViewController {
             fatalError("Cell not found")
         }
         let note = notes[indexPath.row]
-        print(note.body)
         cell.selectionStyle = .none
        
         
@@ -80,31 +67,68 @@ class ViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        notes[indexPath.row].selected.toggle()
-        updateSelectedIndex(indexPath.row)
-        createNewNote(notes[indexPath.row])
+        let curr = indexPath.row
+        notes[curr].selected.toggle()
+        updateSelectedIndex(curr)
+        if (editMode){
+            if notes.count >= curr {
+                openExistingNote(passMeNote: notes[curr])
+            }
+        }
     }
     
-    @objc func createNewNote(_ hasNote: Note){
+     func openExistingNote(passMeNote : Note){
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "detailVC") as? DetailViewController else {
             return
         }
-        vc.hasNote = hasNote
+        
+        vc.hasNote = passMeNote
+        
         let backItem = UIBarButtonItem()
         backItem.title = "Notes"
         navigationItem.backBarButtonItem = backItem
         navigationController?.pushViewController(vc, animated: true)
     }
+    @objc func createNewNote(){
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "detailVC") as? DetailViewController else {
+            return
+        }
+        
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = "Notes"
+        navigationItem.backBarButtonItem = backItem
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    @objc func deleteTheNotes(){
+        var count = 0
+        for (note) in notes{
+            if note.selected {
+                notes.remove(at: count)
+                continue
+            }
+            count += 1
+        }
+        tableView.reloadData()
+        save()
+    }
     @objc func deleteThem(){
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target:nil, action: nil)
         if editMode {
             editMode = false
             for note in notes {
                 note.showTheRadioButton = false
+                note.selected = false
+                let deleteNotes = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteTheNotes))
+                toolbarItems = [spacer,deleteNotes]
             }
         }else{
             editMode = true
             for note in notes {
                 note.showTheRadioButton = true
+                note.selected = false
+                 let newNote = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createNewNote))
+                toolbarItems = [spacer,newNote]
             }
         }
         
@@ -119,11 +143,28 @@ class ViewController: UITableViewController {
                    notes = try jsonDecoder.decode([Note].self,from: savedArray)
 
                } catch{
-
-                   print("Failed to load people")
+                   print("Failed to load Old notes")
                }
            }
         tableView.reloadData()
+        
+    }
+    func save(){
+        let jsonEncoder = JSONEncoder()
+         let defaults = UserDefaults.standard
+        if let savedData = try? jsonEncoder.encode(notes){
+            defaults.set(savedData,forKey: "userCustomNotes")
+        }else{
+            print("Failed to save data")
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            notes.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            save()
+        }
         
     }
 }

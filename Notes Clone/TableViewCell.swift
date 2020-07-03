@@ -31,9 +31,9 @@ class TableViewCell: UITableViewCell {
     public func configure(_ note: Note) {
         title.text = note.title
         if(note.body.count>20){
-            body.text = String(note.body.prefix(20))
+            body.text = note.dateAndTime + String(note.body.prefix(20))
         }else{
-            body.text = note.body
+            body.text = note.dateAndTime + note.body
         }
     }
     public func isSelected(_ selected: Bool){
