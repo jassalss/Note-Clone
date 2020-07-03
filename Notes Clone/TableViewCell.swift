@@ -30,7 +30,11 @@ class TableViewCell: UITableViewCell {
     }
     public func configure(_ note: Note) {
         title.text = note.title
-        body.text = note.body
+        if(note.body.count>20){
+            body.text = String(note.body.prefix(20))
+        }else{
+            body.text = note.body
+        }
     }
     public func isSelected(_ selected: Bool){
         setSelected(selected, animated: true)

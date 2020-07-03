@@ -20,8 +20,18 @@ class ViewController: UITableViewController {
     var editMode = true
     override func viewDidLoad() {
         super.viewDidLoad()
-        notes.append(Note(title: "Simer", body: "DON DON DON", selected: false))
-        notes.append(Note(title: "Simer", body: "DON DON DON", selected: false))
+//         let defaults = UserDefaults.standard
+//         if let savedArray = defaults.object(forKey: "userCustomNotes") as? Data{
+//             let jsonDecoder = JSONDecoder()
+//             do{
+//                 notes = try jsonDecoder.decode([Note].self,from: savedArray)
+//
+//             } catch{
+//
+//                 print("Failed to load people")
+//             }
+//         }
+
         let myLabl = UILabel()
         myLabl.text = "Notes"
         myLabl.tintColor = .systemYellow
@@ -48,6 +58,7 @@ class ViewController: UITableViewController {
             fatalError("Cell not found")
         }
         let note = notes[indexPath.row]
+        print(note.body)
         cell.selectionStyle = .none
        
         
@@ -64,20 +75,21 @@ class ViewController: UITableViewController {
         
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        return notes.count
     }
 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         notes[indexPath.row].selected.toggle()
         updateSelectedIndex(indexPath.row)
-       // createNewNote()
+        createNewNote(notes[indexPath.row])
     }
     
-    @objc func createNewNote(){
+    @objc func createNewNote(_ hasNote: Note){
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "detailVC") as? DetailViewController else {
             return
         }
+        vc.hasNote = hasNote
         let backItem = UIBarButtonItem()
         backItem.title = "Notes"
         navigationItem.backBarButtonItem = backItem
@@ -97,6 +109,22 @@ class ViewController: UITableViewController {
         }
         
         tableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let defaults = UserDefaults.standard
+           if let savedArray = defaults.object(forKey: "userCustomNotes") as? Data{
+               let jsonDecoder = JSONDecoder()
+               do{
+                   notes = try jsonDecoder.decode([Note].self,from: savedArray)
+
+               } catch{
+
+                   print("Failed to load people")
+               }
+           }
+        tableView.reloadData()
+        
     }
 }
 
