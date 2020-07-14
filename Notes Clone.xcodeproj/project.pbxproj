@@ -17,6 +17,7 @@
 		8F7259C324ABFF5D002EF3EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7259C124ABFF5D002EF3EB /* Main.storyboard */; };
 		8F7259C524ABFF61002EF3EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F7259C424ABFF61002EF3EB /* Assets.xcassets */; };
 		8F7259C824ABFF61002EF3EB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7259C624ABFF61002EF3EB /* LaunchScreen.storyboard */; };
+		8FEB2FA124BD3DFD0001DB9F /* demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8FEB2FA024BD3DFD0001DB9F /* demo.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		8F7259C424ABFF61002EF3EB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8F7259C724ABFF61002EF3EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8F7259C924ABFF61002EF3EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8FEB2FA024BD3DFD0001DB9F /* demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = demo.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +52,7 @@
 			children = (
 				8F7259BA24ABFF5D002EF3EB /* Notes Clone */,
 				8F7259B924ABFF5D002EF3EB /* Products */,
+				8FEB2F9F24BD3DFD0001DB9F /* demo */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,6 +80,14 @@
 				8F7259C924ABFF61002EF3EB /* Info.plist */,
 			);
 			path = "Notes Clone";
+			sourceTree = "<group>";
+		};
+		8FEB2F9F24BD3DFD0001DB9F /* demo */ = {
+			isa = PBXGroup;
+			children = (
+				8FEB2FA024BD3DFD0001DB9F /* demo.gif */,
+			);
+			path = demo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +150,7 @@
 			files = (
 				8F7259C824ABFF61002EF3EB /* LaunchScreen.storyboard in Resources */,
 				8F61625424AE12CD00EE5E68 /* TableViewCell.xib in Resources */,
+				8FEB2FA124BD3DFD0001DB9F /* demo.gif in Resources */,
 				8F7259C524ABFF61002EF3EB /* Assets.xcassets in Resources */,
 				8F7259C324ABFF5D002EF3EB /* Main.storyboard in Resources */,
 			);
